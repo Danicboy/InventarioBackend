@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InvenrarioBack.Models.DBModels
+namespace InventarioBack.Models.DBModels
 {
     public partial class Roles
     {

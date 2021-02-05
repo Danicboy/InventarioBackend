@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InvenrarioBack.Models.DBModels
+namespace InventarioBack.Models.DBModels
 {
     public partial class Usuario
     {
@@ -18,6 +18,7 @@ namespace InvenrarioBack.Models.DBModels
         public int Idrole { get; set; }
         public DateTime FechaCreacion { get; set; }
         public bool Estado { get; set; }
+        public string Contrasenia { get; set; }
 
         public virtual Roles IdroleNavigation { get; set; }
         public virtual ICollection<OrdenCompra> OrdenCompra { get; set; }

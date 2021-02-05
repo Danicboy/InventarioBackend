@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using InvenrarioBack.Models.DBModels;
+using InventarioBack.Models.DBModels;
 
-namespace InvenrarioBack.Context
+namespace InventarioBack.Context
 {
     public partial class InventarioContext : DbContext
     {
@@ -37,7 +37,7 @@ namespace InvenrarioBack.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=38.17.54.162,1433;user id=temp; password=Bodega123456;");
+                optionsBuilder.UseSqlServer("Server=38.17.54.162,1433;Database=BodegaLaBendicion;user id=temp; password=Bodega123456;");
             }
         }
 
@@ -361,6 +361,10 @@ namespace InvenrarioBack.Context
                     .HasName("PK__Usuario__52311169858BC5A2");
 
                 entity.Property(e => e.Idusuario).HasColumnName("IDUsuario");
+
+                entity.Property(e => e.Contrasenia)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Correo)
                     .IsRequired()
