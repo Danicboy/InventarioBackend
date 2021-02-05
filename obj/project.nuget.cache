@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gySeFJBgUJlGx2MoBVvv7gYxZy7oXe/a3X8UQIjmtGrH5+oXQXSYkPfSyJC1svR8N2QLtqOp+4EHsJ0sPJz/CQ==",
+  "dgSpecHash": "AIJLlUqEXKE4JEEu2M/VBsSU12IP9o7GAmHnOtKnk7iikTQnEs4Rser6UApuQ+M10mErcGwWEMBy+sFgzegHGg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Danicboy\\source\\repos\\InventarioBack\\InventarioBack.csproj",
+  "projectFilePath": "C:\\Users\\Danicboy\\Documents\\InventarioBackend\\InventarioBack.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Danicboy\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Danicboy\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

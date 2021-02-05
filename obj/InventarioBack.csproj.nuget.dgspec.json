@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Danicboy\\source\\repos\\InventarioBack\\InventarioBack.csproj": {}
+    "C:\\Users\\Danicboy\\Documents\\InventarioBackend\\InventarioBack.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Danicboy\\source\\repos\\InventarioBack\\InventarioBack.csproj": {
+    "C:\\Users\\Danicboy\\Documents\\InventarioBackend\\InventarioBack.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Danicboy\\source\\repos\\InventarioBack\\InventarioBack.csproj",
+        "projectUniqueName": "C:\\Users\\Danicboy\\Documents\\InventarioBackend\\InventarioBack.csproj",
         "projectName": "InventarioBack",
-        "projectPath": "C:\\Users\\Danicboy\\source\\repos\\InventarioBack\\InventarioBack.csproj",
+        "projectPath": "C:\\Users\\Danicboy\\Documents\\InventarioBackend\\InventarioBack.csproj",
         "packagesPath": "C:\\Users\\Danicboy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Danicboy\\source\\repos\\InventarioBack\\obj\\",
+        "outputPath": "C:\\Users\\Danicboy\\Documents\\InventarioBackend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
