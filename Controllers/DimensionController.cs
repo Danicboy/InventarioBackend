@@ -1,5 +1,5 @@
-﻿using InvenrarioBack.Context;
-using InvenrarioBack.Models.DBModels;
+﻿using InventarioBack.Context;
+using InventarioBack.Models.DBModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
