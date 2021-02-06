@@ -1,5 +1,6 @@
 ﻿using InventarioBack.Context;
 using InventarioBack.Models.DBModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,19 @@ namespace InvenrarioBack.Controllers
         }
 
         [HttpGet("CategoriaList")]
+        [Authorize]
         public async Task<ActionResult> GetCategoriaList()
         {
+            string customerid = null;
+            try
+            {
+                customerid = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.Categoria.OrderBy(x => x.Idcategoria).Select(x => new
             {
                 IdCateogira = x.Idcategoria,
