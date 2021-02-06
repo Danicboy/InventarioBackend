@@ -29,6 +29,7 @@ namespace InvenrarioBack.Controllers
         public async Task<ActionResult> GetCategoriaList()
         {
             string customerid = null;
+
             try
             {
                 customerid = User.Claims.First(x => x.Type == "Idusuario").Value;
