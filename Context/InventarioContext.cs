@@ -50,10 +50,28 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idcategoria).HasColumnName("IDCategoria");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.CategoriaIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Categoria__IDUsu__5CD6CB2B");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.CategoriaIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Categoria__IDUsu__5BE2A6F2");
             });
 
             modelBuilder.Entity<Cliente>(entity =>
@@ -68,12 +86,28 @@ namespace InventarioBack.Context
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.ClienteIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Cliente__IDUsuar__5EBF139D");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.ClienteIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Cliente__Estado__5DCAEF64");
             });
 
             modelBuilder.Entity<DetalleOrdenCompra>(entity =>
@@ -163,10 +197,28 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Iddimension).HasColumnName("IDDimension");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.DimensionesIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Dimension__IDUsu__60A75C0F");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.DimensionesIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Dimension__Estad__5FB337D6");
             });
 
             modelBuilder.Entity<Inventario>(entity =>
@@ -176,13 +228,31 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idinventario).HasColumnName("IDInventario");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
 
                 entity.HasOne(d => d.IdproductoNavigation)
                     .WithMany(p => p.Inventario)
                     .HasForeignKey(d => d.Idproducto)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Inventari__IDPro__32E0915F");
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.InventarioIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Inventari__IDUsu__628FA481");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.InventarioIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Inventari__Estad__619B8048");
             });
 
             modelBuilder.Entity<Marca>(entity =>
@@ -192,10 +262,28 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idmarca).HasColumnName("IDMarca");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.MarcaIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Marca__IDUsuario__6477ECF3");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.MarcaIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Marca__Estado__6383C8BA");
             });
 
             modelBuilder.Entity<MaximosMinimos>(entity =>
@@ -205,13 +293,31 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.IdmaxMin).HasColumnName("IDMaxMin");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
 
                 entity.HasOne(d => d.IdproductoNavigation)
                     .WithMany(p => p.MaximosMinimos)
                     .HasForeignKey(d => d.Idproducto)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MaximosMi__IDPro__35BCFE0A");
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.MaximosMinimosIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__MaximosMi__IDUsu__66603565");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.MaximosMinimosIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__MaximosMi__Estad__656C112C");
             });
 
             modelBuilder.Entity<OrdenCompra>(entity =>
@@ -277,9 +383,17 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
                 entity.Property(e => e.Idcategoria).HasColumnName("IDCategoria");
 
                 entity.Property(e => e.Idmarca).HasColumnName("IDMarca");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
@@ -299,6 +413,16 @@ namespace InventarioBack.Context
                     .HasForeignKey(d => d.Idmarca)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Producto__IDMarc__2F10007B");
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.ProductoIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Producto__IDUsua__68487DD7");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.ProductoIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Producto__Estado__6754599E");
             });
 
             modelBuilder.Entity<Proveedor>(entity =>
@@ -313,6 +437,14 @@ namespace InventarioBack.Context
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
@@ -322,6 +454,16 @@ namespace InventarioBack.Context
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.ProveedorIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__Proveedor__IDUsu__6A30C649");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.ProveedorIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__Proveedor__Estad__693CA210");
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -349,10 +491,28 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.IdunidadMedida).HasColumnName("IDUnidadMedida");
 
+                entity.Property(e => e.FechaActualizado).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaCreado).HasColumnType("datetime");
+
+                entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
+
+                entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdusuarioActualizoNavigation)
+                    .WithMany(p => p.UnidadesDeMedidaIdusuarioActualizoNavigation)
+                    .HasForeignKey(d => d.IdusuarioActualizo)
+                    .HasConstraintName("FK__UnidadesD__IDUsu__6C190EBB");
+
+                entity.HasOne(d => d.IdusuarioCreadoNavigation)
+                    .WithMany(p => p.UnidadesDeMedidaIdusuarioCreadoNavigation)
+                    .HasForeignKey(d => d.IdusuarioCreado)
+                    .HasConstraintName("FK__UnidadesD__Estad__6B24EA82");
             });
 
             modelBuilder.Entity<Usuario>(entity =>

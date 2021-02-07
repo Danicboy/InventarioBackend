@@ -18,9 +18,16 @@ namespace InventarioBack.Models.DBModels
         public int Idmarca { get; set; }
         public decimal PrecioUnitario { get; set; }
         public int Idcategoria { get; set; }
+        public int? IdusuarioCreado { get; set; }
+        public DateTime? FechaCreado { get; set; }
+        public int? IdusuarioActualizo { get; set; }
+        public DateTime? FechaActualizado { get; set; }
+        public bool? Estado { get; set; }
 
         public virtual Categoria IdcategoriaNavigation { get; set; }
         public virtual Marca IdmarcaNavigation { get; set; }
+        public virtual Usuario IdusuarioActualizoNavigation { get; set; }
+        public virtual Usuario IdusuarioCreadoNavigation { get; set; }
         public virtual ICollection<DetalleOrdenCompra> DetalleOrdenCompra { get; set; }
         public virtual ICollection<DetalleOrdenVenta> DetalleOrdenVenta { get; set; }
         public virtual ICollection<Inventario> Inventario { get; set; }
