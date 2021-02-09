@@ -29,7 +29,13 @@ namespace InventarioBack.Controllers
                 IDMaxMin = x.IdmaxMin,
                 IDProducto = x.Idproducto,
                 MinimoAceptable = x.MinimoAceptable,
-                MaximoAceptable = x.MaximoAceptable
+                MaximoAceptable = x.MaximoAceptable,
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
+
             }).ToListAsync();
 
             return Ok(lista);
@@ -50,7 +56,12 @@ namespace InventarioBack.Controllers
             {
                 Idproducto = maxmin.Idproducto,
                 MinimoAceptable = maxmin.MinimoAceptable,
-                MaximoAceptable = maxmin.MaximoAceptable
+                MaximoAceptable = maxmin.MaximoAceptable,
+                IdusuarioCreado = maxmin.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = maxmin.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = maxmin.Estado
             };
 
             _context.MaximosMinimos.Add(item);
@@ -75,6 +86,9 @@ namespace InventarioBack.Controllers
             maxMin.Idproducto = maxmin.Idproducto;
             maxMin.MinimoAceptable = maxmin.MinimoAceptable;
             maxMin.MaximoAceptable = maxmin.MaximoAceptable;
+            maxMin.IdusuarioActualizo = maxmin.IdusuarioActualizo;
+            maxMin.FechaActualizado = DateTime.Now;
+            maxMin.Estado = maxmin.Estado;
 
             await _context.SaveChangesAsync();
 

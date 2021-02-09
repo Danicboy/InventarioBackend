@@ -27,7 +27,12 @@ namespace InventarioBack.Controllers
             var lista = await _context.UnidadesDeMedida.OrderBy(x => x.IdunidadMedida).Select(x => new
             {
                 IdUnidadesMedidas = x.IdunidadMedida,
-                Nombre = x.Nombre
+                Nombre = x.Nombre,
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
 
             }).ToListAsync();
 
@@ -48,7 +53,12 @@ namespace InventarioBack.Controllers
         {
             UnidadesDeMedida item = new UnidadesDeMedida()
             {
-                Nombre = uni.Nombre
+                Nombre = uni.Nombre,
+                IdusuarioCreado = uni.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = uni.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = uni.Estado
             };
 
             _context.UnidadesDeMedida.Add(item);
@@ -71,6 +81,9 @@ namespace InventarioBack.Controllers
             }
 
             unidadesMedidas.Nombre = uni.Nombre;
+            unidadesMedidas.IdusuarioActualizo = uni.IdusuarioActualizo;
+            unidadesMedidas.FechaActualizado = DateTime.Now;
+            unidadesMedidas.Estado = uni.Estado;
 
             await _context.SaveChangesAsync();
 

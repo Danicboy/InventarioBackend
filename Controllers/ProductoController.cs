@@ -30,7 +30,12 @@ namespace InventarioBack.Controllers
                 Nombre = x.Nombre,
                 IDMarca = x.Idmarca,
                 PrecioUnitario = x.PrecioUnitario,
-                IDCategoria = x.Idcategoria
+                IDCategoria = x.Idcategoria,
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
 
             }).ToListAsync();
 
@@ -53,7 +58,12 @@ namespace InventarioBack.Controllers
                 Nombre = pro.Nombre,
                 Idmarca = pro.Idmarca,
                 PrecioUnitario = pro.PrecioUnitario,
-                Idcategoria = pro.Idcategoria
+                Idcategoria = pro.Idcategoria,
+                IdusuarioCreado = pro.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = pro.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = pro.Estado
             };
 
             _context.Producto.Add(item);
@@ -78,6 +88,9 @@ namespace InventarioBack.Controllers
             producto.Idmarca = pro.Idmarca;
             producto.PrecioUnitario = pro.PrecioUnitario;
             producto.Idcategoria = pro.Idcategoria;
+            producto.IdusuarioActualizo = pro.IdusuarioActualizo;
+            producto.FechaActualizado = DateTime.Now;
+            producto.Estado = pro.Estado;
 
             await _context.SaveChangesAsync();
 

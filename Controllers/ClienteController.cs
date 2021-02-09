@@ -31,8 +31,11 @@ namespace InventarioBack.Controllers
                 IdCliente = x.Idcliente,
                 Nombre = x.Nombre,
                 Correo = x.Correo,
-                FechaCreacion = x.FechaCreacion,
-                Estado = x.EstadoCliente
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
 
             }).ToListAsync();
 
@@ -55,8 +58,11 @@ namespace InventarioBack.Controllers
             {
                 Nombre = clie.Nombre,
                 Correo = clie.Correo,
-                FechaCreacion = DateTime.Now,
-                EstadoCliente = true
+                IdusuarioCreado = clie.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = clie.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = clie.Estado
 
             };
 
@@ -80,7 +86,9 @@ namespace InventarioBack.Controllers
 
             cliente.Nombre = clie.Nombre;
             cliente.Correo = clie.Correo;
-            cliente.EstadoCliente = clie.EstadoCliente;
+            cliente.IdusuarioActualizo = clie.IdusuarioActualizo;
+            cliente.FechaActualizado = DateTime.Now;
+            cliente.Estado = clie.Estado;
 
             await _context.SaveChangesAsync();
 

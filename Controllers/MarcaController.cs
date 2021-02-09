@@ -29,6 +29,11 @@ namespace InventarioBack.Controllers
             {
                 IdMarca = x.Idmarca,
                 Nombre = x.Nombre,
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
 
             }).ToListAsync();
 
@@ -49,7 +54,12 @@ namespace InventarioBack.Controllers
 
             Marca item = new Marca()
             {
-                Nombre = mar.Nombre
+                Nombre = mar.Nombre,
+                IdusuarioCreado = mar.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = mar.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = mar.Estado
             };
 
             _context.Marca.Add(item);
@@ -71,6 +81,9 @@ namespace InventarioBack.Controllers
             }
 
             marca.Nombre = mar.Nombre;
+            marca.IdusuarioActualizo = mar.IdusuarioActualizo;
+            marca.FechaActualizado = DateTime.Now;
+            marca.Estado = mar.Estado;
 
             await _context.SaveChangesAsync();
 

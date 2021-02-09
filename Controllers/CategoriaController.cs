@@ -43,6 +43,12 @@ namespace InvenrarioBack.Controllers
             {
                 IdCateogira = x.Idcategoria,
                 Nombre = x.Nombre,
+                IdusuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdusuarioActualizo = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
+
 
             }).ToListAsync();
 
@@ -63,7 +69,12 @@ namespace InvenrarioBack.Controllers
 
             Categoria item = new Categoria()
             {
-                Nombre = cate.Nombre
+                Nombre = cate.Nombre,
+                IdusuarioCreado = cate.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = cate.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = cate.Estado
             };
 
             _context.Categoria.Add(item);
@@ -85,6 +96,9 @@ namespace InvenrarioBack.Controllers
             }
 
             categoria.Nombre = cate.Nombre;
+            categoria.IdusuarioActualizo = cate.IdusuarioActualizo;
+            categoria.FechaActualizado = DateTime.Now;
+            categoria.Estado = cate.Estado;
 
             await _context.SaveChangesAsync();
 

@@ -29,6 +29,11 @@ namespace InventarioBack.Controllers
             {
                 IdDimension = x.Iddimension,
                 Nombre = x.Nombre,
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
 
             }).ToListAsync();
 
@@ -49,7 +54,12 @@ namespace InventarioBack.Controllers
 
             Dimensiones item = new Dimensiones()
             {
-                Nombre = dim.Nombre
+                Nombre = dim.Nombre,
+                IdusuarioCreado = dim.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = dim.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = dim.Estado
             };
 
             _context.Dimensiones.Add(item);
@@ -71,6 +81,9 @@ namespace InventarioBack.Controllers
             }
 
             dimension.Nombre = dim.Nombre;
+            dimension.IdusuarioActualizo = dim.IdusuarioActualizo;
+            dimension.FechaActualizado = DateTime.Now;
+            dimension.Estado = dim.Estado;
 
             await _context.SaveChangesAsync();
 

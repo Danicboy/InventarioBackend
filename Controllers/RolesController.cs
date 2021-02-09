@@ -29,7 +29,6 @@ namespace InventarioBack.Controllers
                 IdRole = x.Idrole,
                 Nombre = x.Nombre,
                 Descripcion = x.Descripcion
-
             }).ToListAsync();
 
             return Ok(lista);

@@ -30,7 +30,12 @@ namespace InventarioBack.Controllers
                 IdProveedor = x.Idproveedor,
                 Nombre = x.Nombre,
                 Direccion = x.Direccion,
-                Telefono = x.Telefono
+                Telefono = x.Telefono,
+                IdUsuarioCreado = x.IdusuarioCreado,
+                FechaCreado = x.FechaCreado,
+                IdUsuarioActualizado = x.IdusuarioActualizo,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
 
             }).ToListAsync();
 
@@ -53,7 +58,12 @@ namespace InventarioBack.Controllers
             {
                 Nombre = pro.Nombre,
                 Direccion = pro.Direccion,
-                Telefono = pro.Telefono
+                Telefono = pro.Telefono,
+                IdusuarioCreado = pro.IdusuarioCreado,
+                FechaCreado = DateTime.Now,
+                IdusuarioActualizo = pro.IdusuarioActualizo,
+                FechaActualizado = DateTime.Now,
+                Estado = pro.Estado
             };
 
             _context.Proveedor.Add(item);
@@ -63,7 +73,7 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateProveedor/{ProveedorId}")]
-        public async Task<ActionResult> PutProveedor(int ProveedorId, Proveedor mar)
+        public async Task<ActionResult> PutProveedor(int ProveedorId, Proveedor pro)
         {
             var proveedor = await _context.Proveedor.FirstOrDefaultAsync(x => x.Idproveedor == ProveedorId);
 
@@ -74,9 +84,12 @@ namespace InventarioBack.Controllers
                 return NotFound();
             }
 
-            proveedor.Nombre = mar.Nombre;
-            proveedor.Direccion = proveedor.Direccion;
-            proveedor.Telefono = proveedor.Telefono;
+            proveedor.Nombre = pro.Nombre;
+            proveedor.Direccion = pro.Direccion;
+            proveedor.Telefono = pro.Telefono;
+            proveedor.IdusuarioCreado = pro.IdusuarioCreado;
+            proveedor.FechaActualizado = DateTime.Now;
+            proveedor.Estado = pro.Estado;
 
             await _context.SaveChangesAsync();
 
