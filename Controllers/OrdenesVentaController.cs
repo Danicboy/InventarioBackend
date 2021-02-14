@@ -112,7 +112,7 @@ namespace InventarioBack.Controllers
             return Ok("Orden de venta actualizada");
         }
 
-        [HttpPut("AnularOrdenCompra")]
+        [HttpPut("AnularOrdenVenta")]
         public async Task<ActionResult> AnularOrdenCompra(DTOOrdenCompra orden)
         {
 
@@ -135,7 +135,7 @@ namespace InventarioBack.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok("Orden de compra anulada");
+            return Ok("Orden de venta anulada");
         }
 
         public async Task<int> Estados(int idOrdenVenta)
