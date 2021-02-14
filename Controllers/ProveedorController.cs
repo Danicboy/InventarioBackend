@@ -53,6 +53,12 @@ namespace InventarioBack.Controllers
         [HttpPost("AddProveedor")]
         public async Task<ActionResult> PostProveedor(Proveedor pro)
         {
+            var existe = _context.Proveedor.Any(x => x.Nombre.Contains(pro.Nombre));
+
+            if (existe)
+            {
+                return Ok("El proveedor ya existe");
+            }
 
             Proveedor item = new Proveedor()
             {

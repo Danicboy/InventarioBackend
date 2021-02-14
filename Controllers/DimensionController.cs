@@ -51,6 +51,12 @@ namespace InventarioBack.Controllers
         [HttpPost("AddDimension")]
         public async Task<ActionResult> PostDimension(Dimensiones dim)
         {
+            var existe = _context.Dimensiones.Any(x => x.Nombre.Contains(dim.Nombre));
+
+            if (existe)
+            {
+                return Ok("La dimension ya existe");
+            }
 
             Dimensiones item = new Dimensiones()
             {

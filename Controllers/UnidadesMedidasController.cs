@@ -51,6 +51,13 @@ namespace InventarioBack.Controllers
         [HttpPost("AddUnidadesMedidas")]
         public async Task<ActionResult> PostUnidadesMedidas(UnidadesDeMedida uni)
         {
+            var existe = _context.UnidadesDeMedida.Any(x => x.Nombre.Contains(uni.Nombre));
+
+            if (existe)
+            {
+                return Ok("La medida ya existe");
+            }
+
             UnidadesDeMedida item = new UnidadesDeMedida()
             {
                 Nombre = uni.Nombre,

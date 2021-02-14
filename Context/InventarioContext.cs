@@ -21,6 +21,8 @@ namespace InventarioBack.Context
         public virtual DbSet<DetalleOrdenCompra> DetalleOrdenCompra { get; set; }
         public virtual DbSet<DetalleOrdenVenta> DetalleOrdenVenta { get; set; }
         public virtual DbSet<Dimensiones> Dimensiones { get; set; }
+        public virtual DbSet<EstadoOrdenCompra> EstadoOrdenCompra { get; set; }
+        public virtual DbSet<EstadoOrdenVenta> EstadoOrdenVenta { get; set; }
         public virtual DbSet<Inventario> Inventario { get; set; }
         public virtual DbSet<Marca> Marca { get; set; }
         public virtual DbSet<MaximosMinimos> MaximosMinimos { get; set; }
@@ -117,19 +119,11 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.IddetalleOc).HasColumnName("IDDetalleOC");
 
-                entity.Property(e => e.Iddimension).HasColumnName("IDDimension");
-
                 entity.Property(e => e.IdordenCompra).HasColumnName("IDOrdenCompra");
 
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
 
                 entity.Property(e => e.IdunidadMedida).HasColumnName("IDUnidadMedida");
-
-                entity.HasOne(d => d.IddimensionNavigation)
-                    .WithMany(p => p.DetalleOrdenCompra)
-                    .HasForeignKey(d => d.Iddimension)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DetalleOr__IDDim__4CA06362");
 
                 entity.HasOne(d => d.IdordenCompraNavigation)
                     .WithMany(p => p.DetalleOrdenCompra)
@@ -157,19 +151,11 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.IddetalleOv).HasColumnName("IDDetalleOV");
 
-                entity.Property(e => e.Iddimension).HasColumnName("IDDimension");
-
                 entity.Property(e => e.IdordenVenta).HasColumnName("IDOrdenVenta");
 
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
 
                 entity.Property(e => e.IdunidadMedida).HasColumnName("IDUnidadMedida");
-
-                entity.HasOne(d => d.IddimensionNavigation)
-                    .WithMany(p => p.DetalleOrdenVenta)
-                    .HasForeignKey(d => d.Iddimension)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__DetalleOr__IDDim__412EB0B6");
 
                 entity.HasOne(d => d.IdordenVentaNavigation)
                     .WithMany(p => p.DetalleOrdenVenta)
@@ -219,6 +205,28 @@ namespace InventarioBack.Context
                     .WithMany(p => p.DimensionesIdusuarioCreadoNavigation)
                     .HasForeignKey(d => d.IdusuarioCreado)
                     .HasConstraintName("FK__Dimension__Estad__5FB337D6");
+            });
+
+            modelBuilder.Entity<EstadoOrdenCompra>(entity =>
+            {
+                entity.HasKey(e => e.IdestadoOrdenCompra);
+
+                entity.Property(e => e.IdestadoOrdenCompra).HasColumnName("IDEstadoOrdenCompra");
+
+                entity.Property(e => e.NombreEstado)
+                    .IsRequired()
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<EstadoOrdenVenta>(entity =>
+            {
+                entity.HasKey(e => e.IdestadoOrdenVenta);
+
+                entity.Property(e => e.IdestadoOrdenVenta).HasColumnName("IDEstadoOrdenVenta");
+
+                entity.Property(e => e.NombreEstado)
+                    .IsRequired()
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Inventario>(entity =>
@@ -331,9 +339,20 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.FechaEspectativa).HasColumnType("datetime");
 
+                entity.Property(e => e.IdestadoOrdenCompra).HasColumnName("IDEstadoOrdenCompra");
+
                 entity.Property(e => e.Idproveedor).HasColumnName("IDProveedor");
 
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.UserCreatedId).HasColumnName("UserCreatedID");
+
+                entity.HasOne(d => d.IdestadoOrdenCompraNavigation)
+                    .WithMany(p => p.OrdenCompra)
+                    .HasForeignKey(d => d.IdestadoOrdenCompra)
+                    .HasConstraintName("FK_OrdenCompra_EstadoOrdenCompra1");
 
                 entity.HasOne(d => d.IdproveedorNavigation)
                     .WithMany(p => p.OrdenCompra)
@@ -361,6 +380,13 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idcliente).HasColumnName("IDCliente");
 
+                entity.Property(e => e.IdestadoOrdenVenta).HasColumnName("IDEstadoOrdenVenta");
+
+                entity.Property(e => e.Tipo)
+                    .HasColumnName("tipo")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.UserCreatedId).HasColumnName("UserCreatedID");
 
                 entity.HasOne(d => d.IdclienteNavigation)
@@ -368,6 +394,11 @@ namespace InventarioBack.Context
                     .HasForeignKey(d => d.Idcliente)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__OrdenVent__IDCli__3D5E1FD2");
+
+                entity.HasOne(d => d.IdestadoOrdenVentaNavigation)
+                    .WithMany(p => p.OrdenVenta)
+                    .HasForeignKey(d => d.IdestadoOrdenVenta)
+                    .HasConstraintName("FK_OrdenVenta_EstadoOrdenVenta");
 
                 entity.HasOne(d => d.UserCreated)
                     .WithMany(p => p.OrdenVenta)
@@ -389,16 +420,13 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idcategoria).HasColumnName("IDCategoria");
 
+                entity.Property(e => e.Iddimension).HasColumnName("IDDimension");
+
                 entity.Property(e => e.Idmarca).HasColumnName("IDMarca");
 
                 entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
 
                 entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
-
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(18, 0)");
 
@@ -407,6 +435,11 @@ namespace InventarioBack.Context
                     .HasForeignKey(d => d.Idcategoria)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Producto__IDCate__300424B4");
+
+                entity.HasOne(d => d.IddimensionNavigation)
+                    .WithMany(p => p.Producto)
+                    .HasForeignKey(d => d.Iddimension)
+                    .HasConstraintName("FK__Producto__IDDime__6E01572D");
 
                 entity.HasOne(d => d.IdmarcaNavigation)
                     .WithMany(p => p.Producto)

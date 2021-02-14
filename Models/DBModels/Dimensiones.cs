@@ -7,8 +7,7 @@ namespace InventarioBack.Models.DBModels
     {
         public Dimensiones()
         {
-            DetalleOrdenCompra = new HashSet<DetalleOrdenCompra>();
-            DetalleOrdenVenta = new HashSet<DetalleOrdenVenta>();
+            Producto = new HashSet<Producto>();
         }
 
         public int Iddimension { get; set; }
@@ -21,7 +20,6 @@ namespace InventarioBack.Models.DBModels
 
         public virtual Usuario IdusuarioActualizoNavigation { get; set; }
         public virtual Usuario IdusuarioCreadoNavigation { get; set; }
-        public virtual ICollection<DetalleOrdenCompra> DetalleOrdenCompra { get; set; }
-        public virtual ICollection<DetalleOrdenVenta> DetalleOrdenVenta { get; set; }
+        public virtual ICollection<Producto> Producto { get; set; }
     }
 }

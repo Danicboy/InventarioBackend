@@ -54,6 +54,13 @@ namespace InventarioBack.Controllers
         [HttpPost("AddCliente")]
         public async Task<ActionResult> PostClinte(Cliente clie)
         {
+            var existe = _context.Cliente.Any(x => x.Nombre.Contains(clie.Nombre));
+
+            if (existe)
+            {
+                return Ok("El cliente ya existe");
+            }
+
             Cliente item = new Cliente()
             {
                 Nombre = clie.Nombre,

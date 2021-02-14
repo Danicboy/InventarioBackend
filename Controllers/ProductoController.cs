@@ -27,10 +27,10 @@ namespace InventarioBack.Controllers
             var lista = await _context.Producto.OrderBy(x => x.Idproducto).Select(x => new
             {
                 IDProducto = x.Idproducto,
-                Nombre = x.Nombre,
                 IDMarca = x.Idmarca,
                 PrecioUnitario = x.PrecioUnitario,
                 IDCategoria = x.Idcategoria,
+                IDDimension = x.Iddimension,
                 IdUsuarioCreado = x.IdusuarioCreado,
                 FechaCreado = x.FechaCreado,
                 IdUsuarioActualizado = x.IdusuarioActualizo,
@@ -53,12 +53,19 @@ namespace InventarioBack.Controllers
         [HttpPost("AddProducto")]
         public async Task<ActionResult> PostProducto(Producto pro)
         {
+            var existe = _context.Producto.Any(x => x.Idproducto == pro.Idproducto);
+
+            if (existe)
+            {
+                return Ok("El producto ya existe");
+            }
+
             Producto item = new Producto()
             {
-                Nombre = pro.Nombre,
                 Idmarca = pro.Idmarca,
                 PrecioUnitario = pro.PrecioUnitario,
                 Idcategoria = pro.Idcategoria,
+                Iddimension = pro.Iddimension,
                 IdusuarioCreado = pro.IdusuarioCreado,
                 FechaCreado = DateTime.Now,
                 IdusuarioActualizo = pro.IdusuarioActualizo,
@@ -84,10 +91,10 @@ namespace InventarioBack.Controllers
                 return NotFound();
             }
 
-            producto.Nombre = pro.Nombre;
             producto.Idmarca = pro.Idmarca;
             producto.PrecioUnitario = pro.PrecioUnitario;
             producto.Idcategoria = pro.Idcategoria;
+            producto.Iddimension = pro.Iddimension;
             producto.IdusuarioActualizo = pro.IdusuarioActualizo;
             producto.FechaActualizado = DateTime.Now;
             producto.Estado = pro.Estado;

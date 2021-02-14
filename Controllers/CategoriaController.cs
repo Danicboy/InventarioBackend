@@ -67,6 +67,13 @@ namespace InvenrarioBack.Controllers
         public async Task<ActionResult> PostCategoria(Categoria cate)
         {
 
+            var existe = _context.Categoria.Any(x => x.Nombre.Contains(cate.Nombre));
+
+            if (existe)
+            {
+                return Ok("La categoria ya existe");
+            }
+
             Categoria item = new Categoria()
             {
                 Nombre = cate.Nombre,

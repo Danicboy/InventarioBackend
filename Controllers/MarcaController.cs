@@ -51,6 +51,12 @@ namespace InventarioBack.Controllers
         [HttpPost("AddMarca")]
         public async Task<ActionResult> PostMarca(Marca mar)
         {
+            var existe = _context.Marca.Any(x => x.Nombre.Contains(mar.Nombre));
+
+            if (existe)
+            {
+                return Ok("La marca ya existe");
+            }
 
             Marca item = new Marca()
             {
