@@ -56,10 +56,12 @@ namespace InventarioBack.Controllers
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
 
-                return Ok(token);
+                return Ok( new { userToken = token } );
             }
-
-            return NotFound("Usuario no encontrado!!!");
+            else
+            {
+                return NotFound("Usuario no encontrado!!!");
+            }
         }
     }
 }

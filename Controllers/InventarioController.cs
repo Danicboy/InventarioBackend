@@ -24,7 +24,7 @@ namespace InventarioBack.Controllers
         [HttpGet("InventarioList")]
         public async Task<ActionResult> InventarioList()
         {
-            var lista = _context.Inventario.OrderBy(x => x.Idinventario).Select(x => new
+            var lista = await _context.Inventario.OrderBy(x => x.Idinventario).Select(x => new
             {
                 IdInventario = x.Idinventario,
                 IdProducto = x.Idproducto,
