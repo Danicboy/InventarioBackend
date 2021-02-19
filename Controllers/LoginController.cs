@@ -39,6 +39,11 @@ namespace InventarioBack.Controllers
 
             var usuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Contrasenia == passencryp);
 
+            if (log.UserName != usuario.UserName)
+            {
+                return Ok("Usuario incorrecto!!!");
+            }
+
             if (usuario != null)
             {
                 var tokenDescriptor = new SecurityTokenDescriptor
