@@ -57,7 +57,7 @@ namespace InventarioBack.Controllers
                 FechaSalida = orden.FechaSalida,
                 UserCreatedId = orden.UserCreatedId,
                 Idcliente = orden.Idcliente,
-                IdestadoOrdenVenta = 1,
+                IdestadoOrdenVenta = (int)EnumVentas.Proceso,
                 Tipo = orden.Tipo
             };
 
@@ -96,7 +96,7 @@ namespace InventarioBack.Controllers
 
             ordenVenta.IdestadoOrdenVenta = nextEstado;
 
-            if (ordenVenta.IdestadoOrdenVenta == 2)
+            if (ordenVenta.IdestadoOrdenVenta == (int)EnumVentas.Entregada)
             {
                 foreach (var detalle in orden.DetalleOrdenVenta)
                 {
@@ -118,12 +118,12 @@ namespace InventarioBack.Controllers
 
             var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == orden.IdordenCompra);
 
-            if (ordenCompra.IdestadoOrdenCompra == 2 || ordenCompra.IdestadoOrdenCompra == 3)
+            if (ordenCompra.IdestadoOrdenCompra == (int)EnumVentas.Entregada || ordenCompra.IdestadoOrdenCompra == (int)EnumVentas.Anulada)
             {
                 return Ok("Esta orden se encuentra entregada/anulada no es posible anularla");
             }
 
-            ordenCompra.IdestadoOrdenCompra = 3;
+            ordenCompra.IdestadoOrdenCompra = (int)EnumVentas.Anulada;
 
             //foreach (var detalle in orden.DetalleOrdenCompra)
             //{
@@ -140,13 +140,13 @@ namespace InventarioBack.Controllers
 
         public async Task<int> Estados(int idOrdenVenta)
         {
-            var ordenVenta = await _context.OrdenVenta.FirstOrDefaultAsync(x => x.IdordenVenta == idOrdenVenta);
-
             int estado = 0;
 
-            if (ordenVenta.IdestadoOrdenVenta == 1)
+            var ordenVenta = await _context.OrdenVenta.FirstOrDefaultAsync(x => x.IdordenVenta == idOrdenVenta);
+
+            if (ordenVenta.IdestadoOrdenVenta == (int)EnumVentas.Proceso)
             {
-                estado = 2;
+                estado = (int)EnumVentas.Entregada;
             }
 
             return estado;

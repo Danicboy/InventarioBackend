@@ -54,10 +54,10 @@ namespace InventarioBack.Controllers
             OrdenCompra item = new OrdenCompra()
             {
                 FechaCreacion = DateTime.Now,
-                FechaEspectativa = DateTime.Now,
+                FechaEspectativa = orden.FechaEspectativa,
                 UserCreatedId = orden.UserCreatedId,
                 Idproveedor = orden.Idproveedor,
-                IdestadoOrdenCompra = 1,
+                IdestadoOrdenCompra = (int)EnumCompras.Compra,
                 Tipo = orden.Tipo
             };
 
@@ -96,7 +96,7 @@ namespace InventarioBack.Controllers
 
             ordenCompra.IdestadoOrdenCompra = nextEstado;
 
-            if (ordenCompra.IdestadoOrdenCompra == 4)
+            if (ordenCompra.IdestadoOrdenCompra == (int)EnumCompras.Entrega)
             {
                 foreach (var detalle in orden.DetalleOrdenCompra)
                 {
@@ -118,12 +118,12 @@ namespace InventarioBack.Controllers
 
             var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == orden.IdordenCompra);
 
-            if (ordenCompra.IdestadoOrdenCompra == 4 || ordenCompra.IdestadoOrdenCompra == 5)
+            if (ordenCompra.IdestadoOrdenCompra == (int)EnumCompras.Entrega || ordenCompra.IdestadoOrdenCompra == (int)EnumCompras.Anulada)
             {
                 return Ok("Esta orden se encuentra entregada/anulada no es posible anularla");
             }
 
-            ordenCompra.IdestadoOrdenCompra = 5;
+            ordenCompra.IdestadoOrdenCompra = (int)EnumCompras.Anulada;
 
             //foreach (var detalle in orden.DetalleOrdenCompra)
             //{
@@ -140,24 +140,44 @@ namespace InventarioBack.Controllers
 
         public async Task<int> Estados(int idOrdenCompra)
         {
-            var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == idOrdenCompra);
 
             int estado = 0;
 
-            if (ordenCompra.IdestadoOrdenCompra == 1)
+            var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == idOrdenCompra);
+
+            if (ordenCompra.IdestadoOrdenCompra == (int)EnumCompras.Compra)
             {
-                estado = 2;
+                estado = (int)EnumCompras.Pendiente;
             }
-            else if (ordenCompra.IdestadoOrdenCompra == 2)
+            else if (ordenCompra.IdestadoOrdenCompra == (int)EnumCompras.Pendiente)
             {
-                estado = 3;
+                estado = (int)EnumCompras.Espera;
             }
-            else if(ordenCompra.IdestadoOrdenCompra == 3)
+            else if (ordenCompra.IdestadoOrdenCompra == (int)EnumCompras.Espera)
             {
-                estado = 4;
+                estado = (int)EnumCompras.Entrega;
             }
 
             return estado;
+
+            //var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == idOrdenCompra);
+
+            //int estado = 0;
+
+            //if (ordenCompra.IdestadoOrdenCompra == 1)
+            //{
+            //    estado = 2;
+            //}
+            //else if (ordenCompra.IdestadoOrdenCompra == 2)
+            //{
+            //    estado = 3;
+            //}
+            //else if(ordenCompra.IdestadoOrdenCompra == 3)
+            //{
+            //    estado = 4;
+            //}
+
+            //return estado;
         }
     }
 }

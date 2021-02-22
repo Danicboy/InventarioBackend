@@ -14,6 +14,7 @@ namespace InvenrarioBack.Controllers
     [Route("api/[controller]")]
     [ApiController]
     
+
     public class CategoriaController : ControllerBase
     {
         private readonly InventarioContext _context;
@@ -28,31 +29,41 @@ namespace InvenrarioBack.Controllers
         [Authorize]
         public async Task<ActionResult> GetCategoriaList()
         {
-            string customerid = null;
+            string id = null;
+            string roleId = null;
 
             try
             {
-                customerid = User.Claims.First(x => x.Type == "Idusuario").Value;
+                id = User.Claims.First(x => x.Type == "Idusuario").Value;
+                roleId = User.Claims.First(x => x.Type == "Idrole").Value;
             }
             catch (Exception)
             {
                 return await Task.FromResult(StatusCode(401, "Acceso restringido"));
             }
 
-            var lista = await _context.Categoria.OrderBy(x => x.Idcategoria).Select(x => new
+            if (roleId == "10" || roleId == "9")
             {
-                IdCateogira = x.Idcategoria,
-                Nombre = x.Nombre,
-                IdusuarioCreado = x.IdusuarioCreado,
-                FechaCreado = x.FechaCreado,
-                IdusuarioActualizo = x.IdusuarioActualizo,
-                FechaActualizado = x.FechaActualizado,
-                Estado = x.Estado
+                var lista = await _context.Categoria.OrderBy(x => x.Idcategoria).Select(x => new
+                {
+                    IdCateogira = x.Idcategoria,
+                    Nombre = x.Nombre,
+                    IdusuarioCreado = x.IdusuarioCreado,
+                    FechaCreado = x.FechaCreado,
+                    IdusuarioActualizo = x.IdusuarioActualizo,
+                    FechaActualizado = x.FechaActualizado,
+                    Estado = x.Estado
 
 
-            }).ToListAsync();
+                }).ToListAsync();
 
-            return Ok(lista);
+                return Ok(lista);
+            }
+            else
+            {
+                return Ok("No tiene acceso a este modulo!!!");
+            }
+           
         }
 
         [HttpGet("Categoria/{CategoriaId}")]

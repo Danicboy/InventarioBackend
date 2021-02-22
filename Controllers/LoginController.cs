@@ -51,7 +51,8 @@ namespace InventarioBack.Controllers
 
                     Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim("Idusuario", usuario.Idusuario.ToString())
+                        new Claim("Idusuario", usuario.Idusuario.ToString()),
+                        new Claim("Idrole", usuario.Idrole.ToString())
                 }),
 
                     //Expires = DateTime.UtcNow.AddDays(1),
