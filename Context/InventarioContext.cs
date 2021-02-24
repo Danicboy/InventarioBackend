@@ -39,7 +39,7 @@ namespace InventarioBack.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=38.17.54.162,1433;Database=BodegaLaBendicion;user id=temp; password=Bodega123456;");
+                optionsBuilder.UseSqlServer("Server=38.17.54.162,51688;Database=BodegaLaBendicion;user id=temp; password=Bodega123456;");
             }
         }
 
