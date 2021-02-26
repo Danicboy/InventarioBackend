@@ -27,13 +27,13 @@ namespace InventarioBack.Controllers
             var lista = await _context.Producto.OrderBy(x => x.Idproducto).Select(x => new
             {
                 IDProducto = x.Idproducto,
-                IDMarca = x.Idmarca,
+                IDMarca = x.IdmarcaNavigation.Nombre,
                 PrecioUnitario = x.PrecioUnitario,
-                IDCategoria = x.Idcategoria,
-                IDDimension = x.Iddimension,
-                IdUsuarioCreado = x.IdusuarioCreado,
+                IDCategoria = x.IdcategoriaNavigation.Nombre,
+                IDDimension = x.IddimensionNavigation.Nombre,
+                IdUsuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                 FechaCreado = x.FechaCreado,
-                IdUsuarioActualizado = x.IdusuarioActualizo,
+                IdUsuarioActualizado = x.IdusuarioActualizoNavigation.Nombre,
                 FechaActualizado = x.FechaActualizado,
                 Estado = x.Estado
 

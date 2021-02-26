@@ -30,9 +30,9 @@ namespace InventarioBack.Controllers
                 idOrdenCompra = x.IdordenCompra,
                 fechaCreacion = x.FechaCreacion,
                 fechaEspectativa = x.FechaEspectativa,
-                userCreatedId = x.UserCreatedId,
-                idProveedor = x.Idproveedor,
-                estado = x.IdestadoOrdenCompra,
+                userCreatedId = _context.Usuario.FirstOrDefault(y => y.Idusuario == x.UserCreatedId),
+                idProveedor = x.IdproveedorNavigation.Nombre,
+                estado = x.IdestadoOrdenCompraNavigation.NombreEstado,
                 tipo = x.Tipo,
                 //detalleOrdenCompra = _context.DetalleOrdenCompra.ToList()
             }).ToListAsync();

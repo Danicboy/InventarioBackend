@@ -27,12 +27,12 @@ namespace InventarioBack.Controllers
             var lista = await _context.MaximosMinimos.OrderBy(x => x.IdmaxMin).Select(x => new
             {
                 IDMaxMin = x.IdmaxMin,
-                IDProducto = x.Idproducto,
+                IDProducto = x.IdproductoNavigation.IdmarcaNavigation.Nombre + x.IdproductoNavigation.IddimensionNavigation.Nombre,
                 MinimoAceptable = x.MinimoAceptable,
                 MaximoAceptable = x.MaximoAceptable,
-                IdUsuarioCreado = x.IdusuarioCreado,
+                IdUsuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                 FechaCreado = x.FechaCreado,
-                IdUsuarioActualizado = x.IdusuarioActualizo,
+                IdUsuarioActualizado = x.IdusuarioActualizoNavigation.Nombre,
                 FechaActualizado = x.FechaActualizado,
                 Estado = x.Estado
 

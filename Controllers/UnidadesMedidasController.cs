@@ -28,9 +28,9 @@ namespace InventarioBack.Controllers
             {
                 IdUnidadesMedidas = x.IdunidadMedida,
                 Nombre = x.Nombre,
-                IdUsuarioCreado = x.IdusuarioCreado,
+                IdUsuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                 FechaCreado = x.FechaCreado,
-                IdUsuarioActualizado = x.IdusuarioActualizo,
+                IdUsuarioActualizado = x.IdusuarioActualizoNavigation.Nombre,
                 FechaActualizado = x.FechaActualizado,
                 Estado = x.Estado
 

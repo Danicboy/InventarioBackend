@@ -27,11 +27,11 @@ namespace InventarioBack.Controllers
             var lista = await _context.Inventario.OrderBy(x => x.Idinventario).Select(x => new
             {
                 IdInventario = x.Idinventario,
-                IdProducto = x.Idproducto,
+                IdProducto = x.IdproductoNavigation.IdmarcaNavigation.Nombre + x.IdproductoNavigation.IddimensionNavigation.Nombre,
                 cantidad = x.Cantidad,
-                IdUsuarioCreado = x.IdusuarioCreado,
+                IdUsuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                 fechaCreado = x.FechaCreado,
-                idUsuarioActualizado = x.IdusuarioActualizo,
+                idUsuarioActualizado = x.IdusuarioActualizoNavigation.Nombre,
                 fechaActualizado = x.FechaActualizado,
                 estado = x.Estado
             }).ToListAsync();

@@ -31,9 +31,9 @@ namespace InventarioBack.Controllers
                 IdCliente = x.Idcliente,
                 Nombre = x.Nombre,
                 Correo = x.Correo,
-                IdUsuarioCreado = x.IdusuarioCreado,
+                IdUsuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                 FechaCreado = x.FechaCreado,
-                IdUsuarioActualizado = x.IdusuarioActualizo,
+                IdUsuarioActualizado = x.IdusuarioActualizoNavigation.Nombre,
                 FechaActualizado = x.FechaActualizado,
                 Estado = x.Estado
 
