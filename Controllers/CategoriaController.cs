@@ -48,9 +48,9 @@ namespace InvenrarioBack.Controllers
                 {
                     IdCateogira = x.Idcategoria,
                     Nombre = x.Nombre,
-                    IdusuarioCreado = x.IdusuarioCreado,
+                    IdusuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                     FechaCreado = x.FechaCreado,
-                    IdusuarioActualizo = x.IdusuarioActualizo,
+                    IdusuarioActualizo = x.IdusuarioActualizoNavigation.Nombre,
                     FechaActualizado = x.FechaActualizado,
                     Estado = x.Estado
 
