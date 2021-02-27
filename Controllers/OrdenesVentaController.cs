@@ -30,7 +30,7 @@ namespace InventarioBack.Controllers
                 idOrdenVenta = x.IdordenVenta,
                 fechaCreacion = x.FechaCreacion,
                 fechaSalida = x.FechaSalida,
-                userCreatedId = _context.Usuario.FirstOrDefault(y => y.Idusuario == x.UserCreatedId),
+                userCreatedId = _context.Usuario.FirstOrDefault(y => y.Idusuario == x.UserCreatedId).Nombre,
                 idCliente = x.IdclienteNavigation.Nombre,
                 estado = x.IdestadoOrdenVentaNavigation.NombreEstado,
                 tipo = x.Tipo,
