@@ -34,7 +34,8 @@ namespace InventarioBack.Controllers
                 idProveedor = x.IdproveedorNavigation.Nombre,
                 estado = x.IdestadoOrdenCompraNavigation.NombreEstado,
                 tipo = x.Tipo,
-                //detalleOrdenCompra = _context.DetalleOrdenCompra.ToList()
+                total = x.Total,
+                detalleOrdenCompra = _context.DetalleOrdenCompra.ToList()
             }).ToListAsync();
 
             return Ok(lista);
@@ -58,7 +59,10 @@ namespace InventarioBack.Controllers
                 UserCreatedId = orden.UserCreatedId,
                 Idproveedor = orden.Idproveedor,
                 IdestadoOrdenCompra = (int)EnumCompras.Compra,
-                Tipo = orden.Tipo
+                Tipo = orden.Tipo,
+                SubTotal = orden.SubTotal,
+                Impuesto = orden.Impuesto,
+                Total = orden.Total
             };
 
             _context.OrdenCompra.Add(item);
@@ -72,6 +76,8 @@ namespace InventarioBack.Controllers
                     Idproducto = detalle.Idproducto,
                     IdunidadMedida = detalle.IdunidadMedida,
                     Cantidad = detalle.Cantidad,
+                    TotalUnidadCompra = detalle.TotalUnidadCompra
+
                 };
 
                 _context.DetalleOrdenCompra.Add(itemDetalle);

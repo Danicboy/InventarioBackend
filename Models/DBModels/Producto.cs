@@ -15,7 +15,6 @@ namespace InventarioBack.Models.DBModels
 
         public int Idproducto { get; set; }
         public int Idmarca { get; set; }
-        public decimal PrecioUnitario { get; set; }
         public int Idcategoria { get; set; }
         public int? IdusuarioCreado { get; set; }
         public DateTime? FechaCreado { get; set; }
@@ -23,6 +22,8 @@ namespace InventarioBack.Models.DBModels
         public DateTime? FechaActualizado { get; set; }
         public bool? Estado { get; set; }
         public int? Iddimension { get; set; }
+        public int? PrecioCompra { get; set; }
+        public int? PrecioVenta { get; set; }
 
         public virtual Categoria IdcategoriaNavigation { get; set; }
         public virtual Dimensiones IddimensionNavigation { get; set; }

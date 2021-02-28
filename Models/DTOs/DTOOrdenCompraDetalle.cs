@@ -12,5 +12,6 @@ namespace InventarioBack.Models.DTOs
         public int Idproducto { get; set; }
         public int IdunidadMedida { get; set; }
         public int Cantidad { get; set; }
+        public decimal? TotalUnidadCompra { get; set; }
     }
 }

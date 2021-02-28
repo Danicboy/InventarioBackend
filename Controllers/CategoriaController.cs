@@ -54,7 +54,6 @@ namespace InvenrarioBack.Controllers
                     FechaActualizado = x.FechaActualizado,
                     Estado = x.Estado
 
-
                 }).ToListAsync();
 
                 return Ok(lista);

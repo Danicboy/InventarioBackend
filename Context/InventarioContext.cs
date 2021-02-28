@@ -18,6 +18,7 @@ namespace InventarioBack.Context
 
         public virtual DbSet<Categoria> Categoria { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<Descuento> Descuento { get; set; }
         public virtual DbSet<DetalleOrdenCompra> DetalleOrdenCompra { get; set; }
         public virtual DbSet<DetalleOrdenVenta> DetalleOrdenVenta { get; set; }
         public virtual DbSet<Dimensiones> Dimensiones { get; set; }
@@ -112,6 +113,20 @@ namespace InventarioBack.Context
                     .HasConstraintName("FK__Cliente__Estado__5DCAEF64");
             });
 
+            modelBuilder.Entity<Descuento>(entity =>
+            {
+                entity.HasKey(e => e.IdDescuento);
+
+                entity.Property(e => e.IdDescuento).ValueGeneratedNever();
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Valor).HasColumnType("decimal(18, 0)");
+            });
+
             modelBuilder.Entity<DetalleOrdenCompra>(entity =>
             {
                 entity.HasKey(e => e.IddetalleOc)
@@ -124,6 +139,8 @@ namespace InventarioBack.Context
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
 
                 entity.Property(e => e.IdunidadMedida).HasColumnName("IDUnidadMedida");
+
+                entity.Property(e => e.TotalUnidadCompra).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdordenCompraNavigation)
                     .WithMany(p => p.DetalleOrdenCompra)
@@ -156,6 +173,8 @@ namespace InventarioBack.Context
                 entity.Property(e => e.Idproducto).HasColumnName("IDProducto");
 
                 entity.Property(e => e.IdunidadMedida).HasColumnName("IDUnidadMedida");
+
+                entity.Property(e => e.TotalUnidadVenta).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdordenVentaNavigation)
                     .WithMany(p => p.DetalleOrdenVenta)
@@ -343,9 +362,15 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.Idproveedor).HasColumnName("IDProveedor");
 
+                entity.Property(e => e.Impuesto).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 0)");
+
                 entity.Property(e => e.Tipo)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.UserCreatedId).HasColumnName("UserCreatedID");
 
@@ -382,12 +407,25 @@ namespace InventarioBack.Context
 
                 entity.Property(e => e.IdestadoOrdenVenta).HasColumnName("IDEstadoOrdenVenta");
 
+                entity.Property(e => e.Impuesto).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.MontoDescuento).HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 0)");
+
                 entity.Property(e => e.Tipo)
                     .HasColumnName("tipo")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
+
                 entity.Property(e => e.UserCreatedId).HasColumnName("UserCreatedID");
+
+                entity.HasOne(d => d.IdDescuentoNavigation)
+                    .WithMany(p => p.OrdenVenta)
+                    .HasForeignKey(d => d.IdDescuento)
+                    .HasConstraintName("FK_OrdenVenta_Descuento");
 
                 entity.HasOne(d => d.IdclienteNavigation)
                     .WithMany(p => p.OrdenVenta)
@@ -427,8 +465,6 @@ namespace InventarioBack.Context
                 entity.Property(e => e.IdusuarioActualizo).HasColumnName("IDUsuarioActualizo");
 
                 entity.Property(e => e.IdusuarioCreado).HasColumnName("IDUsuarioCreado");
-
-                entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdcategoriaNavigation)
                     .WithMany(p => p.Producto)

@@ -10,6 +10,7 @@ namespace InventarioBack.Models.DBModels
         public int Idproducto { get; set; }
         public int IdunidadMedida { get; set; }
         public int Cantidad { get; set; }
+        public decimal? TotalUnidadVenta { get; set; }
 
         public virtual OrdenVenta IdordenVentaNavigation { get; set; }
         public virtual Producto IdproductoNavigation { get; set; }

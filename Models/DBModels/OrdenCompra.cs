@@ -17,6 +17,9 @@ namespace InventarioBack.Models.DBModels
         public int Idproveedor { get; set; }
         public string Tipo { get; set; }
         public int? IdestadoOrdenCompra { get; set; }
+        public decimal? SubTotal { get; set; }
+        public decimal? Impuesto { get; set; }
+        public decimal? Total { get; set; }
 
         public virtual EstadoOrdenCompra IdestadoOrdenCompraNavigation { get; set; }
         public virtual Proveedor IdproveedorNavigation { get; set; }

@@ -34,6 +34,7 @@ namespace InventarioBack.Controllers
                 idCliente = x.IdclienteNavigation.Nombre,
                 estado = x.IdestadoOrdenVentaNavigation.NombreEstado,
                 tipo = x.Tipo,
+                total = x.Total,
                 detalleOrdenVenta = _context.DetalleOrdenVenta.ToList()
             }).ToListAsync();
 
@@ -58,7 +59,12 @@ namespace InventarioBack.Controllers
                 UserCreatedId = orden.UserCreatedId,
                 Idcliente = orden.Idcliente,
                 IdestadoOrdenVenta = (int)EnumVentas.Proceso,
-                Tipo = orden.Tipo
+                Tipo = orden.Tipo,
+                SubTotal = orden.SubTotal,
+                IdDescuento = orden.IdDescuento,
+                MontoDescuento = orden.MontoDescuento,
+                Impuesto = orden.Impuesto,
+                Total = orden.Total
             };
 
             _context.OrdenVenta.Add(item);
@@ -72,6 +78,7 @@ namespace InventarioBack.Controllers
                     Idproducto = detalle.Idproducto,
                     IdunidadMedida = detalle.IdunidadMedida,
                     Cantidad = detalle.Cantidad,
+                    TotalUnidadVenta = detalle.TotalUnidadVenta
                 };
 
                 _context.DetalleOrdenVenta.Add(itemDetalle);

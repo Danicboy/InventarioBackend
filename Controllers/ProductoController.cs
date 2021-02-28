@@ -28,14 +28,15 @@ namespace InventarioBack.Controllers
             {
                 IDProducto = x.Idproducto,
                 IDMarca = x.IdmarcaNavigation.Nombre,
-                PrecioUnitario = x.PrecioUnitario,
                 IDCategoria = x.IdcategoriaNavigation.Nombre,
                 IDDimension = x.IddimensionNavigation.Nombre,
                 IdUsuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
                 FechaCreado = x.FechaCreado,
                 IdUsuarioActualizado = x.IdusuarioActualizoNavigation.Nombre,
                 FechaActualizado = x.FechaActualizado,
-                Estado = x.Estado
+                Estado = x.Estado,
+                PrecioCompra = x.PrecioCompra,
+                PrecioVenta = x.PrecioVenta
 
             }).ToListAsync();
 
@@ -63,14 +64,15 @@ namespace InventarioBack.Controllers
             Producto item = new Producto()
             {
                 Idmarca = pro.Idmarca,
-                PrecioUnitario = pro.PrecioUnitario,
                 Idcategoria = pro.Idcategoria,
                 Iddimension = pro.Iddimension,
                 IdusuarioCreado = pro.IdusuarioCreado,
                 FechaCreado = DateTime.Now,
                 IdusuarioActualizo = pro.IdusuarioActualizo,
                 FechaActualizado = DateTime.Now,
-                Estado = pro.Estado
+                Estado = pro.Estado,
+                PrecioCompra = pro.PrecioCompra,
+                PrecioVenta = pro.PrecioVenta
             };
 
             _context.Producto.Add(item);
@@ -92,12 +94,13 @@ namespace InventarioBack.Controllers
             }
 
             producto.Idmarca = pro.Idmarca;
-            producto.PrecioUnitario = pro.PrecioUnitario;
             producto.Idcategoria = pro.Idcategoria;
             producto.Iddimension = pro.Iddimension;
             producto.IdusuarioActualizo = pro.IdusuarioActualizo;
             producto.FechaActualizado = DateTime.Now;
             producto.Estado = pro.Estado;
+            producto.PrecioCompra = pro.PrecioCompra;
+            producto.PrecioVenta = pro.PrecioVenta;
 
             await _context.SaveChangesAsync();
 

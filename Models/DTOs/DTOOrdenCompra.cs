@@ -14,6 +14,9 @@ namespace InventarioBack.Models.DTOs
         public int Idproveedor { get; set; }
         public bool EstadoOrdenCompra { get; set; }
         public string Tipo { get; set; }
+        public decimal? SubTotal { get; set; }
+        public decimal? Impuesto { get; set; }
+        public decimal? Total { get; set; }
 
         public List<DTOOrdenCompraDetalle> DetalleOrdenCompra { get; set; } = new List<DTOOrdenCompraDetalle>();
     }

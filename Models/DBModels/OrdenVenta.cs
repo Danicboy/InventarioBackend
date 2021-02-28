@@ -17,7 +17,13 @@ namespace InventarioBack.Models.DBModels
         public int Idcliente { get; set; }
         public int? IdestadoOrdenVenta { get; set; }
         public string Tipo { get; set; }
+        public decimal? SubTotal { get; set; }
+        public int? IdDescuento { get; set; }
+        public decimal? MontoDescuento { get; set; }
+        public decimal? Impuesto { get; set; }
+        public decimal? Total { get; set; }
 
+        public virtual Descuento IdDescuentoNavigation { get; set; }
         public virtual Cliente IdclienteNavigation { get; set; }
         public virtual EstadoOrdenVenta IdestadoOrdenVentaNavigation { get; set; }
         public virtual Usuario UserCreated { get; set; }
