@@ -56,11 +56,6 @@ namespace InventarioBack.Controllers
         {
             var existe = _context.Producto.Any(x => x.Idproducto == pro.Idproducto);
 
-            if (existe)
-            {
-                return Ok("El producto ya existe");
-            }
-
             Producto item = new Producto()
             {
                 Idmarca = pro.Idmarca,

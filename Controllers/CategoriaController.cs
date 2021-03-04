@@ -13,11 +13,10 @@ namespace InvenrarioBack.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
-
     public class CategoriaController : ControllerBase
     {
         private readonly InventarioContext _context;
+        
 
         public CategoriaController(InventarioContext context)
         {
@@ -29,53 +28,67 @@ namespace InvenrarioBack.Controllers
         [Authorize]
         public async Task<ActionResult> GetCategoriaList()
         {
-            string id = null;
-            string roleId = null;
+            string _id = null;
 
             try
             {
-                id = User.Claims.First(x => x.Type == "Idusuario").Value;
-                roleId = User.Claims.First(x => x.Type == "Idrole").Value;
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
             }
             catch (Exception)
             {
                 return await Task.FromResult(StatusCode(401, "Acceso restringido"));
             }
 
-            if (roleId == "10" || roleId == "9")
-            {
-                var lista = await _context.Categoria.OrderBy(x => x.Idcategoria).Select(x => new
-                {
-                    IdCateogira = x.Idcategoria,
-                    Nombre = x.Nombre,
-                    IdusuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
-                    FechaCreado = x.FechaCreado,
-                    IdusuarioActualizo = x.IdusuarioActualizoNavigation.Nombre,
-                    FechaActualizado = x.FechaActualizado,
-                    Estado = x.Estado
 
-                }).ToListAsync();
-
-                return Ok(lista);
-            }
-            else
+            var lista = await _context.Categoria.OrderBy(x => x.Idcategoria).Select(x => new
             {
-                return Ok("No tiene acceso a este modulo!!!");
-            }
-           
+                IdCateogira = x.Idcategoria,
+                Nombre = x.Nombre,
+                IdusuarioCreado = x.IdusuarioCreadoNavigation.Nombre,
+                FechaCreado = x.FechaCreado,
+                IdusuarioActualizo = x.IdusuarioActualizoNavigation.Nombre,
+                FechaActualizado = x.FechaActualizado,
+                Estado = x.Estado
+
+            }).ToListAsync();
+
+            return Ok(lista);
         }
 
         [HttpGet("Categoria/{CategoriaId}")]
+        [Authorize]
         public async Task<ActionResult> GetCategoriaId(int CategoriaId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var categoria = await _context.Categoria.FirstOrDefaultAsync(x => x.Idcategoria == CategoriaId);
 
             return Ok(categoria);
         }
 
         [HttpPost("AddCategoria")]
+        [Authorize]
         public async Task<ActionResult> PostCategoria(Categoria cate)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
 
             var existe = _context.Categoria.Any(x => x.Nombre.Contains(cate.Nombre));
 
@@ -87,9 +100,9 @@ namespace InvenrarioBack.Controllers
             Categoria item = new Categoria()
             {
                 Nombre = cate.Nombre,
-                IdusuarioCreado = cate.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = cate.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = cate.Estado
             };
@@ -101,8 +114,20 @@ namespace InvenrarioBack.Controllers
         }
 
         [HttpPut("UpdateCategoria/{CategoriaId}")]
+        [Authorize]
         public async Task<ActionResult> PutCategoria(int CategoriaId, Categoria cate)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var categoria = await _context.Categoria.FirstOrDefaultAsync(x => x.Idcategoria == CategoriaId);
 
             var validar = categoria == null;
@@ -113,7 +138,7 @@ namespace InvenrarioBack.Controllers
             }
 
             categoria.Nombre = cate.Nombre;
-            categoria.IdusuarioActualizo = cate.IdusuarioActualizo;
+            categoria.IdusuarioActualizo = Int32.Parse(_id);
             categoria.FechaActualizado = DateTime.Now;
             categoria.Estado = cate.Estado;
 
@@ -123,8 +148,20 @@ namespace InvenrarioBack.Controllers
         }
 
         [HttpDelete("DeleteCategoria/{CategoriaId}")]
+        [Authorize]
         public async Task<ActionResult> DeleteCategoria(int CategoriaId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var categoria = await _context.Categoria.FirstOrDefaultAsync(x => x.Idcategoria == CategoriaId);
 
             var validar = categoria == null;
