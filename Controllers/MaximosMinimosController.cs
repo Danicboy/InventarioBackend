@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -22,8 +23,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("MaxMinList")]
+        [Authorize]
         public async Task<ActionResult> GetMaxMixList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.MaximosMinimos.OrderBy(x => x.IdmaxMin).Select(x => new
             {
                 IDMaxMin = x.IdmaxMin,
@@ -42,24 +55,48 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("MaxMin/{IdMaxMin}")]
+        [Authorize]
         public async Task<ActionResult> GetMaxMixId(int IdMaxMin)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var maxMin = await _context.MaximosMinimos.FirstOrDefaultAsync(x => x.IdmaxMin == IdMaxMin);
 
             return Ok(maxMin);
         }     
         
         [HttpPost("AddMaxMin")]
+        [Authorize]
         public async Task<ActionResult> PostMaxMix(MaximosMinimos maxmin)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             MaximosMinimos item = new MaximosMinimos()
             {
                 Idproducto = maxmin.Idproducto,
                 MinimoAceptable = maxmin.MinimoAceptable,
                 MaximoAceptable = maxmin.MaximoAceptable,
-                IdusuarioCreado = maxmin.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = maxmin.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = maxmin.Estado
             };
@@ -72,8 +109,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateMaxMin/{IdMaxMin}")]
+        [Authorize]
         public async Task<ActionResult> UpdateMaxMin(int IdMaxMin, MaximosMinimos maxmin)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var maxMin = await _context.MaximosMinimos.FirstOrDefaultAsync(x => x.IdmaxMin == IdMaxMin);
 
             var validar = maxMin == null;
@@ -86,7 +135,7 @@ namespace InventarioBack.Controllers
             maxMin.Idproducto = maxmin.Idproducto;
             maxMin.MinimoAceptable = maxmin.MinimoAceptable;
             maxMin.MaximoAceptable = maxmin.MaximoAceptable;
-            maxMin.IdusuarioActualizo = maxmin.IdusuarioActualizo;
+            maxMin.IdusuarioActualizo = Int32.Parse(_id);
             maxMin.FechaActualizado = DateTime.Now;
             maxMin.Estado = maxmin.Estado;
 
@@ -96,8 +145,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpDelete("DeleteMaxMin/{idMaxMin}")]
+        [Authorize]
         public async Task<ActionResult> DeleteMaxMin(int idMaxMin)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var maxMin = await _context.MaximosMinimos.FirstOrDefaultAsync(x => x.IdmaxMin == idMaxMin);
 
             var validar = maxMin == null;

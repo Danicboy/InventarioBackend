@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -23,8 +24,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("ProveedorList")]
+        [Authorize]
         public async Task<ActionResult> GetProveedorList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.Proveedor.OrderBy(x => x.Idproveedor).Select(x => new
             {
                 IdProveedor = x.Idproveedor,
@@ -43,16 +56,40 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("Proveedor/{ProveedorId}")]
+        [Authorize]
         public async Task<ActionResult> GetProveedorId(int ProveedorId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var proveedor = await _context.Proveedor.FirstOrDefaultAsync(x => x.Idproveedor == ProveedorId);
 
             return Ok(proveedor);
         }
 
         [HttpPost("AddProveedor")]
+        [Authorize]
         public async Task<ActionResult> PostProveedor(Proveedor pro)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var existe = _context.Proveedor.Any(x => x.Nombre.Contains(pro.Nombre));
 
             if (existe)
@@ -65,9 +102,9 @@ namespace InventarioBack.Controllers
                 Nombre = pro.Nombre,
                 Direccion = pro.Direccion,
                 Telefono = pro.Telefono,
-                IdusuarioCreado = pro.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = pro.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = pro.Estado
             };
@@ -79,8 +116,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateProveedor/{ProveedorId}")]
+        [Authorize]
         public async Task<ActionResult> PutProveedor(int ProveedorId, Proveedor pro)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var proveedor = await _context.Proveedor.FirstOrDefaultAsync(x => x.Idproveedor == ProveedorId);
 
             var validar = proveedor == null;
@@ -93,7 +142,7 @@ namespace InventarioBack.Controllers
             proveedor.Nombre = pro.Nombre;
             proveedor.Direccion = pro.Direccion;
             proveedor.Telefono = pro.Telefono;
-            proveedor.IdusuarioCreado = pro.IdusuarioCreado;
+            proveedor.IdusuarioCreado = Int32.Parse(_id);
             proveedor.FechaActualizado = DateTime.Now;
             proveedor.Estado = pro.Estado;
 
@@ -103,8 +152,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpDelete("DeleteProveedor/{ProveedorId}")]
+        [Authorize]
         public async Task<ActionResult> DeleteProveedor(int ProveedorId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var proveedor = await _context.Proveedor.FirstOrDefaultAsync(x => x.Idproveedor == ProveedorId);
 
             var validar = proveedor == null;

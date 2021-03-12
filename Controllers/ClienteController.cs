@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -24,8 +25,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("ClienteList")]
+        [Authorize]
         public async Task<ActionResult> GetClienteList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.Cliente.OrderBy(x => x.Idcliente).Select(x => new
             {
                 IdCliente = x.Idcliente,
@@ -44,16 +57,40 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("Cliente/{IdCliente}")]
+        [Authorize]
         public async Task<ActionResult> GetClienteId(int IdCliente)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var cliente = await _context.Cliente.FirstOrDefaultAsync(x => x.Idcliente == IdCliente);
 
             return Ok(cliente);
         }
 
         [HttpPost("AddCliente")]
+        [Authorize]
         public async Task<ActionResult> PostClinte(Cliente clie)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var existe = _context.Cliente.Any(x => x.Nombre.Contains(clie.Nombre));
 
             if (existe)
@@ -65,9 +102,9 @@ namespace InventarioBack.Controllers
             {
                 Nombre = clie.Nombre,
                 Correo = clie.Correo,
-                IdusuarioCreado = clie.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = clie.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = clie.Estado
 
@@ -80,8 +117,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateCliente/{IdCliente}")]
+        [Authorize]
         public async Task<ActionResult> PutCliente(int IdCliente, Cliente clie)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var cliente = await _context.Cliente.FirstOrDefaultAsync(x => x.Idcliente == IdCliente);
 
             var validar = cliente == null;
@@ -93,7 +142,7 @@ namespace InventarioBack.Controllers
 
             cliente.Nombre = clie.Nombre;
             cliente.Correo = clie.Correo;
-            cliente.IdusuarioActualizo = clie.IdusuarioActualizo;
+            cliente.IdusuarioActualizo = Int32.Parse(_id);
             cliente.FechaActualizado = DateTime.Now;
             cliente.Estado = clie.Estado;
 
@@ -103,8 +152,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpDelete("DeleteCliente/{IdCliente}")]
+        [Authorize]
         public async Task<ActionResult> DeleteCliente(int IdCliente)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var cliente = await _context.Cliente.FirstOrDefaultAsync(x => x.Idcliente == IdCliente);
 
             var validar = cliente == null;

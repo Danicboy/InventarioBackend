@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -23,8 +24,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("DimensionList")]
+        [Authorize]
         public async Task<ActionResult> GetDimensionList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.Dimensiones.OrderBy(x => x.Iddimension).Select(x => new
             {
                 IdDimension = x.Iddimension,
@@ -41,16 +54,40 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("Dimension/{DimensionId}")]
+        [Authorize]
         public async Task<ActionResult> GetDimensionId(int DimensionId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var dimension = await _context.Dimensiones.FirstOrDefaultAsync(x => x.Iddimension == DimensionId);
 
             return Ok(dimension);
         }
 
         [HttpPost("AddDimension")]
+        [Authorize]
         public async Task<ActionResult> PostDimension(Dimensiones dim)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var existe = _context.Dimensiones.Any(x => x.Nombre.Contains(dim.Nombre));
 
             if (existe)
@@ -61,9 +98,9 @@ namespace InventarioBack.Controllers
             Dimensiones item = new Dimensiones()
             {
                 Nombre = dim.Nombre,
-                IdusuarioCreado = dim.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = dim.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = dim.Estado
             };
@@ -75,8 +112,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateDimension/{DimensionId}")]
+        [Authorize]
         public async Task<ActionResult> PutDimension(int DimensionId, Dimensiones dim)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var dimension = await _context.Dimensiones.FirstOrDefaultAsync(x => x.Iddimension == DimensionId);
 
             var validar = dimension == null;
@@ -87,7 +136,7 @@ namespace InventarioBack.Controllers
             }
 
             dimension.Nombre = dim.Nombre;
-            dimension.IdusuarioActualizo = dim.IdusuarioActualizo;
+            dimension.IdusuarioActualizo = Int32.Parse(_id);
             dimension.FechaActualizado = DateTime.Now;
             dimension.Estado = dim.Estado;
 
@@ -97,8 +146,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpDelete("DeleteDimension/{DimensionId}")]
+        [Authorize]
         public async Task<ActionResult> DeleteDimension(int DimensionId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var dimension = await _context.Dimensiones.FirstOrDefaultAsync(x => x.Iddimension == DimensionId);
 
             var validar = dimension == null;

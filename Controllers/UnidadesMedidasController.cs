@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -22,8 +23,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("UnidadesMedidasList")]
+        [Authorize]
         public async Task<ActionResult> GetUnidadesMedidasList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.UnidadesDeMedida.OrderBy(x => x.IdunidadMedida).Select(x => new
             {
                 IdUnidadesMedidas = x.IdunidadMedida,
@@ -41,16 +54,40 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("UnidadesMedidas/{UnidadesMedidasId}")]
+        [Authorize]
         public async Task<ActionResult> GetUnidadesMedidasId(int UnidadesMedidasId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var unidadesMedidas = await _context.UnidadesDeMedida.FirstOrDefaultAsync(x => x.IdunidadMedida == UnidadesMedidasId);
 
             return Ok(unidadesMedidas);
         }
 
         [HttpPost("AddUnidadesMedidas")]
+        [Authorize]
         public async Task<ActionResult> PostUnidadesMedidas(UnidadesDeMedida uni)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var existe = _context.UnidadesDeMedida.Any(x => x.Nombre.Contains(uni.Nombre));
 
             if (existe)
@@ -61,9 +98,9 @@ namespace InventarioBack.Controllers
             UnidadesDeMedida item = new UnidadesDeMedida()
             {
                 Nombre = uni.Nombre,
-                IdusuarioCreado = uni.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = uni.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = uni.Estado
             };
@@ -76,8 +113,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateUnidadesMedidas/{UnidadesMedidasId}")]
+        [Authorize]
         public async Task<ActionResult> UpdateUnidadesMedidas(int UnidadesMedidasId, UnidadesDeMedida uni)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var unidadesMedidas = await _context.UnidadesDeMedida.FirstOrDefaultAsync(x => x.IdunidadMedida == UnidadesMedidasId);
 
             var validar = unidadesMedidas == null;
@@ -88,7 +137,7 @@ namespace InventarioBack.Controllers
             }
 
             unidadesMedidas.Nombre = uni.Nombre;
-            unidadesMedidas.IdusuarioActualizo = uni.IdusuarioActualizo;
+            unidadesMedidas.IdusuarioActualizo = Int32.Parse(_id);
             unidadesMedidas.FechaActualizado = DateTime.Now;
             unidadesMedidas.Estado = uni.Estado;
 
@@ -97,9 +146,21 @@ namespace InventarioBack.Controllers
             return Ok("Unidades y Medidas actualizado con exito!!!");
         }
 
-        [HttpDelete("DeleteUnidadesMedidas/{UnidadesMedidasId}")]
+        [HttpDelete("DeleteUnidadesMedidas/{UnidadesMedidasId}")
+        [Authorize]
         public async Task<ActionResult> DeleteUnidadesMedidas(int UnidadesMedidasId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var unidadesMedidas = await _context.UnidadesDeMedida.FirstOrDefaultAsync(x => x.IdunidadMedida == UnidadesMedidasId);
 
             var validar = unidadesMedidas == null;

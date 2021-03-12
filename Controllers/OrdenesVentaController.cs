@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -23,8 +24,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("Lista")]
+        [Authorize]
         public async Task<ActionResult> OrdenesLista()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.OrdenVenta.OrderBy(x => x.IdordenVenta).Select(x => new
             {
                 idOrdenVenta = x.IdordenVenta,
@@ -42,21 +55,45 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("OrdenVenta/{Id}")]
+        [Authorize]
         public async Task<ActionResult> OrdenCompraId(int Id)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var ordenVenta = await _context.OrdenVenta.Include(detalle => detalle.DetalleOrdenVenta).FirstOrDefaultAsync(x => x.IdordenVenta == Id);
 
             return Ok(ordenVenta);
         }
 
         [HttpPost("AddOrdenVenta")]
+        [Authorize]
         public async Task<ActionResult> PostOrdenCompra(DTOOrdenVenta orden)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             OrdenVenta item = new OrdenVenta()
             {
                 FechaCreacion = DateTime.Now,
                 FechaSalida = orden.FechaSalida,
-                UserCreatedId = orden.UserCreatedId,
+                UserCreatedId = Int32.Parse(_id),
                 Idcliente = orden.Idcliente,
                 IdestadoOrdenVenta = (int)EnumVentas.Proceso,
                 Tipo = orden.Tipo,
@@ -95,8 +132,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateOrdenVenta")]
+        [Authorize]
         public async Task<ActionResult> UpdateOrdenVenta(DTOOrdenVenta orden)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var ordenVenta = await _context.OrdenVenta.FirstOrDefaultAsync(x => x.IdordenVenta == orden.IdordenVenta);
 
             var nextEstado = await Estados(ordenVenta.IdordenVenta);
@@ -120,8 +169,19 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("AnularOrdenVenta")]
+        [Authorize]
         public async Task<ActionResult> AnularOrdenCompra(DTOOrdenCompra orden)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
 
             var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == orden.IdordenCompra);
 

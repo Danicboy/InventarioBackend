@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -22,8 +23,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("InventarioList")]
+        [Authorize]
         public async Task<ActionResult> InventarioList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var lista = await _context.Inventario.OrderBy(x => x.Idinventario).Select(x => new
             {
                 IdInventario = x.Idinventario,
@@ -40,16 +53,39 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("Inventario/{Id}")]
+        [Authorize]
         public async Task<ActionResult> InventarioId(int Id)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var inventario = await _context.Inventario.FirstOrDefaultAsync(x => x.Idinventario == Id);
 
             return Ok(inventario);
         }
 
         [HttpPost("AddInventario")]
+        [Authorize]
         public async Task<ActionResult> PostInventario(Inventario inventario)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
 
             var existe = _context.Inventario.Any(x => x.Idproducto == inventario.Idproducto);
 
@@ -62,9 +98,9 @@ namespace InventarioBack.Controllers
             {
                 Idproducto = inventario.Idproducto,
                 Cantidad = inventario.Cantidad,
-                IdusuarioCreado = inventario.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = inventario.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = inventario.Estado
             };
@@ -76,8 +112,20 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateInventario/{InventarioId}")]
+        [Authorize]
         public async Task<ActionResult> UpdateInventario(int Id, Inventario inventario)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
             var invent = await _context.Inventario.FirstOrDefaultAsync(x => x.Idinventario == Id);
 
             var validar = invent == null;
@@ -88,7 +136,7 @@ namespace InventarioBack.Controllers
             }
 
             invent.FechaActualizado = DateTime.Now;
-            invent.IdusuarioActualizo = inventario.IdusuarioActualizo;
+            invent.IdusuarioActualizo = Int32.Parse(_id);
             invent.Estado = inventario.Estado;
 
             await _context.SaveChangesAsync();

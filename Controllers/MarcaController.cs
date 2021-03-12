@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventarioBack.Controllers
 {
@@ -23,8 +24,21 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("MarcaList")]
+        [Authorize]
         public async Task<ActionResult> GetMarcaList()
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
+
             var lista = await _context.Marca.OrderBy(x => x.Idmarca).Select(x => new
             {
                 IdMarca = x.Idmarca,
@@ -41,16 +55,42 @@ namespace InventarioBack.Controllers
         }
 
         [HttpGet("Marca/{MarcaId}")]
+        [Authorize]
         public async Task<ActionResult> GetMarcaId(int MarcaId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
+
             var marca = await _context.Marca.FirstOrDefaultAsync(x => x.Idmarca == MarcaId);
 
             return Ok(marca);
         }
 
         [HttpPost("AddMarca")]
+        [Authorize]
         public async Task<ActionResult> PostMarca(Marca mar)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
+
             var existe = _context.Marca.Any(x => x.Nombre.Contains(mar.Nombre));
 
             if (existe)
@@ -61,9 +101,9 @@ namespace InventarioBack.Controllers
             Marca item = new Marca()
             {
                 Nombre = mar.Nombre,
-                IdusuarioCreado = mar.IdusuarioCreado,
+                IdusuarioCreado = Int32.Parse(_id),
                 FechaCreado = DateTime.Now,
-                IdusuarioActualizo = mar.IdusuarioActualizo,
+                IdusuarioActualizo = Int32.Parse(_id),
                 FechaActualizado = DateTime.Now,
                 Estado = mar.Estado
             };
@@ -75,8 +115,21 @@ namespace InventarioBack.Controllers
         }
 
         [HttpPut("UpdateMarca/{MarcaId}")]
+        [Authorize]
         public async Task<ActionResult> PutMarca(int MarcaId, Marca mar)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
+
             var marca = await _context.Marca.FirstOrDefaultAsync(x => x.Idmarca == MarcaId);
 
             var validar = marca == null;
@@ -87,7 +140,7 @@ namespace InventarioBack.Controllers
             }
 
             marca.Nombre = mar.Nombre;
-            marca.IdusuarioActualizo = mar.IdusuarioActualizo;
+            marca.IdusuarioActualizo = Int32.Parse(_id);
             marca.FechaActualizado = DateTime.Now;
             marca.Estado = mar.Estado;
 
@@ -97,8 +150,21 @@ namespace InventarioBack.Controllers
         }
 
         [HttpDelete("DeleteMarca/{MarcaId}")]
+        [Authorize]
         public async Task<ActionResult> DeleteMarca(int MarcaId)
         {
+            string _id = null;
+
+            try
+            {
+                _id = User.Claims.First(x => x.Type == "Idusuario").Value;
+            }
+            catch (Exception)
+            {
+                return await Task.FromResult(StatusCode(401, "Acceso restringido"));
+            }
+
+
             var marca = await _context.Marca.FirstOrDefaultAsync(x => x.Idmarca == MarcaId);
 
             var validar = marca == null;
