@@ -170,7 +170,7 @@ namespace InventarioBack.Controllers
 
         [HttpPut("AnularOrdenVenta")]
         [Authorize]
-        public async Task<ActionResult> AnularOrdenCompra(DTOOrdenCompra orden)
+        public async Task<ActionResult> AnularOrdenCompra(DTOOrdenVenta orden)
         {
             string _id = null;
 
@@ -183,14 +183,14 @@ namespace InventarioBack.Controllers
                 return await Task.FromResult(StatusCode(401, "Acceso restringido"));
             }
 
-            var ordenCompra = await _context.OrdenCompra.FirstOrDefaultAsync(x => x.IdordenCompra == orden.IdordenCompra);
+            var ordenVenta = await _context.OrdenVenta.FirstOrDefaultAsync(x => x.IdordenVenta == orden.IdordenVenta);
 
-            if (ordenCompra.IdestadoOrdenCompra == (int)EnumVentas.Entregada || ordenCompra.IdestadoOrdenCompra == (int)EnumVentas.Anulada)
+            if (ordenVenta.IdestadoOrdenVenta == (int)EnumVentas.Entregada || ordenVenta.IdestadoOrdenVenta == (int)EnumVentas.Anulada)
             {
                 return Ok("Esta orden se encuentra entregada/anulada no es posible anularla");
             }
 
-            ordenCompra.IdestadoOrdenCompra = (int)EnumVentas.Anulada;
+            ordenVenta.IdestadoOrdenVenta = (int)EnumVentas.Anulada;
 
             //foreach (var detalle in orden.DetalleOrdenCompra)
             //{
@@ -204,6 +204,7 @@ namespace InventarioBack.Controllers
 
             return Ok("Orden de venta anulada");
         }
+
 
         public async Task<int> Estados(int idOrdenVenta)
         {
